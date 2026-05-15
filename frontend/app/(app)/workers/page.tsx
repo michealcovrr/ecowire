@@ -62,7 +62,7 @@ export default function WorkersPage() {
       setExtractedTags(res.data.extracted_tags);
       setWorkers(res.data.workers);
       toast("Voice search complete!", "success");
-    } catch (err) {
+    } catch {
       toast("Failed to process voice search", "error");
     } finally {
       setIsRecording(false);
