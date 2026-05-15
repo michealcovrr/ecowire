@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useAuthStore } from "@/store/auth";
 import { api } from "@/lib/api";
 import { ShieldCheck, Save, Star, QrCode, ChevronRight, AlertCircle, Camera, UploadCloud, Loader2 } from "lucide-react";
@@ -44,7 +44,7 @@ export default function ProfilePage() {
   const [uploading, setUploading] = useState(false);
   const [loadingProfile, setLoadingProfile] = useState(true);
 
-  function fetchProfile() {
+  const fetchProfile = useCallback(() => {
     api.get<ProfileResponse>("/profile/me")
       .then((r) => { 
         setProfileData(r.data); 
@@ -54,11 +54,11 @@ export default function ProfilePage() {
       })
       .catch(() => toast("Failed to load profile", "error"))
       .finally(() => setLoadingProfile(false));
-  }
+  }, [toast]);
 
   useEffect(() => {
     fetchProfile();
-  }, []);
+  }, [fetchProfile]);
 
   async function saveSkills() {
     setSaving(true);
@@ -90,7 +90,7 @@ export default function ProfilePage() {
       });
       toast("Proof uploaded & verified!", "success");
       fetchProfile();
-    } catch (err) {
+    } catch {
       toast("Failed to upload proof", "error");
     } finally {
       setUploading(false);
@@ -211,6 +211,7 @@ export default function ProfilePage() {
             <div className="flex gap-3 overflow-x-auto pb-2 snap-x">
               {media.map((m) => (
                 <div key={m.media_id} className="relative h-24 w-24 flex-shrink-0 snap-start rounded-xl overflow-hidden border border-border">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={m.media_url} alt="Proof" className="object-cover w-full h-full" />
                   {m.confidence_score !== null && m.confidence_score > 0.6 && (
                     <div className="absolute bottom-1 right-1 bg-success/90 backdrop-blur-sm rounded-full p-1 border border-white/20">

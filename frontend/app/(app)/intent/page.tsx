@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { useToast } from "@/components/ui/toast";
-import { Briefcase, ShoppingBag, Truck, Wrench, Wallet, ChevronRight, Check } from "lucide-react";
+import { Briefcase, Truck, Wrench, Wallet, ChevronRight, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface QuestionOption {
@@ -17,7 +17,7 @@ interface Question {
   step: number;
   question: string;
   options: QuestionOption[];
-  show_if?: Record<string, any>;
+  show_if?: Record<string, unknown>;
 }
 
 function getIconForValue(value: string | boolean) {
@@ -36,7 +36,7 @@ export default function IntentPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function IntentPage() {
   }, [toast]);
 
   // Find the next applicable question based on show_if logic
-  function getNextStepIndex(currentStep: number, currentAnswers: Record<string, any>): number {
+  function getNextStepIndex(currentStep: number, currentAnswers: Record<string, unknown>): number {
     for (let i = currentStep + 1; i < questions.length; i++) {
       const q = questions[i];
       if (!q.show_if) return i;
@@ -71,7 +71,7 @@ export default function IntentPage() {
     }
   }
 
-  async function submit(finalAnswers: Record<string, any>) {
+  async function submit(finalAnswers: Record<string, unknown>) {
     setLoading(true);
     try {
       await api.post("/intent/submit", { answers: finalAnswers });
