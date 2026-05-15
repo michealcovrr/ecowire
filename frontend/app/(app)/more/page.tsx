@@ -20,8 +20,8 @@ const MORE_ITEMS = [
     label: "Community Circles",
     description: "Your local trusted network",
     href: "/community",
-    iconBg: "bg-blue-50",
-    iconColor: "text-blue-600",
+    iconBg: "bg-accent",
+    iconColor: "text-primary",
   },
   {
     icon: Bell,
@@ -106,7 +106,7 @@ export default function MorePage() {
       </div>
 
       <p className="mt-8 text-center text-xs text-muted-foreground">
-        EcoNet v0.1 · GTCO Squad Hackathon 3.0
+        alwi v0.1 · GTCO Squad Hackathon 3.0
       </p>
     </div>
   );

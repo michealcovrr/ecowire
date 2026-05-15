@@ -39,7 +39,7 @@ export default function SuccessPage() {
           You&apos;re in, {firstName}!
         </h2>
         <p className="mt-2 text-center text-sm text-white/65 max-w-[220px]">
-          Your EcoNet account is active. Your financial identity starts now.
+          Your alwi account is active. Your financial identity starts now.
         </p>
       </div>
 
@@ -118,7 +118,7 @@ export default function SuccessPage() {
             size="lg"
             onClick={() => router.replace("/dashboard")}
           >
-            Enter EcoNet →
+            Enter alwi →
           </Button>
         </div>
       </div>

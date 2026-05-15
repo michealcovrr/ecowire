@@ -56,7 +56,7 @@ export default function PhonePage() {
             <circle cx="24" cy="24" r="5" fill="white" />
           </svg>
         </div>
-        <h1 className="text-4xl font-extrabold text-white tracking-tight">EcoNet</h1>
+        <h1 className="text-4xl font-extrabold text-white tracking-tight">alwi</h1>
         <p className="mt-2 text-center text-sm text-white/70 max-w-[220px]">
           Your community financial identity
         </p>
@@ -110,7 +110,7 @@ export default function PhonePage() {
         </form>
 
         <div className="mt-8 rounded-2xl bg-accent/40 border border-accent p-4">
-          <p className="text-xs font-semibold text-primary mb-1">About EcoNet</p>
+          <p className="text-xs font-semibold text-primary mb-1">About alwi</p>
           <p className="text-xs text-muted-foreground leading-relaxed">
             Built for the GTCO Squad Hackathon — turning informal economic activity into a trusted financial identity.
           </p>

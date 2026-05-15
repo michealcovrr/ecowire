@@ -225,7 +225,7 @@ function SendForm({ onDone }: { onDone: () => void }) {
         recipient_id: recipientId.trim().toUpperCase(),
         amount_kobo: kobo,
         amount_naira: parseFloat(amountNaira),
-        narration: narration || "EcoNet transfer",
+        narration: narration || "alwi transfer",
       });
       toast(`₦${amountNaira} sent!`, "success");
       setConfirmed(true);

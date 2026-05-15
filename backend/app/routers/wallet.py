@@ -70,7 +70,7 @@ async def send_money(
     current_user: User = Depends(get_current_user),
 ):
     """
-    Send money to another EcoNet user by their ECO-XXXX-XXXX ID.
+    Send money to another alwi user by their ECO-XXXX-XXXX ID.
     Looks up the recipient's Squad virtual account and calls the Transfer API.
     """
     if body.recipient_id == current_user.user_id:
@@ -116,7 +116,7 @@ async def send_money(
         squad_resp = await squad_service.transfer(
             account_number=recipient_acct.squad_account_number,
             bank_code="000",   # Squad internal bank code for virtual accounts
-            account_name=recipient.full_name or "EcoNet User",
+            account_name=recipient.full_name or "alwi User",
             amount=body.amount_kobo,
             narration=body.narration,
             transaction_ref=txn.transaction_id,
@@ -284,9 +284,9 @@ async def cash_out(
         squad_resp = await squad_service.transfer(
             account_number=dest_account,
             bank_code=dest_bank,
-            account_name=current_user.full_name or "EcoNet User",
+            account_name=current_user.full_name or "alwi User",
             amount=body.amount_kobo,
-            narration="EcoNet cash-out",
+            narration="alwi cash-out",
             transaction_ref=txn.transaction_id,
         )
         txn.squad_reference = squad_resp.get("data", {}).get("transaction_ref")

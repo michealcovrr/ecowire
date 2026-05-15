@@ -19,7 +19,7 @@ interface Notification {
 
 const TYPE_ICONS: Record<string, React.ReactNode> = {
   wallet: <Wallet className="h-5 w-5 text-primary" />,
-  job: <Briefcase className="h-5 w-5 text-blue-600" />,
+  job: <Briefcase className="h-5 w-5 text-primary" />,
   chat: <MessageSquare className="h-5 w-5 text-violet-600" />,
   system: <Bell className="h-5 w-5 text-muted-foreground" />,
   kyc: <AlertCircle className="h-5 w-5 text-warning" />,
@@ -27,7 +27,7 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
 
 const TYPE_BG: Record<string, string> = {
   wallet: "bg-accent",
-  job: "bg-blue-50",
+  job: "bg-accent",
   chat: "bg-violet-50",
   system: "bg-muted/50",
   kyc: "bg-warning-light",

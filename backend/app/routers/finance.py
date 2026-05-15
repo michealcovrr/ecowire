@@ -62,21 +62,21 @@ router = APIRouter()
 
 _INSURANCE_PRODUCTS = {
     "health_cover": {
-        "product_name": "EcoNet Health Cover",
+        "product_name": "alwi Health Cover",
         "provider": "Curacel Partners",
         "premium_kobo": 50_000,        # ₦500/month
         "frequency": "monthly",
         "description": "Basic outpatient and emergency health cover",
     },
     "life_cover": {
-        "product_name": "EcoNet Life Cover",
+        "product_name": "alwi Life Cover",
         "provider": "Casava Insurance",
         "premium_kobo": 100_000,       # ₦1,000/month
         "frequency": "monthly",
         "description": "Life insurance up to ₦500,000",
     },
     "equipment_cover": {
-        "product_name": "EcoNet Equipment Cover",
+        "product_name": "alwi Equipment Cover",
         "provider": "AXA Mansard",
         "premium_kobo": 75_000,        # ₦750/month
         "frequency": "monthly",
@@ -856,9 +856,9 @@ async def apply_for_loan(
         await squad_service.transfer(
             account_number=squad_account.squad_account_number,
             bank_code="000",
-            account_name=current_user.full_name or "EcoNet User",
+            account_name=current_user.full_name or "alwi User",
             amount=body.amount_kobo,
-            narration=f"EcoNet Micro-Loan — {body.purpose}",
+            narration=f"alwi Micro-Loan — {body.purpose}",
             transaction_ref=loan.loan_id,
         )
         disbursal_status = "disbursed"
@@ -952,7 +952,7 @@ async def repay_loan(
         await squad_service.transfer(
             account_number=squad_account.squad_account_number if squad_account else "0000000000",
             bank_code="000",
-            account_name="EcoNet Loan Repayment",
+            account_name="alwi Loan Repayment",
             amount=amount_to_repay,
             narration=f"Loan repayment — {loan_id[:8]}",
             transaction_ref=f"repay-{loan_id}-{int(datetime.utcnow().timestamp())}",

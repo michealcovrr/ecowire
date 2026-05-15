@@ -182,7 +182,7 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
     entity = kyc_result.get("entity", {})
     first_name = entity.get("first_name", "").strip()
     last_name = entity.get("last_name", "").strip()
-    full_name = f"{first_name} {last_name}".strip() or "EcoNet User"
+    full_name = f"{first_name} {last_name}".strip() or "alwi User"
 
     def _to_squad_dob(s: str) -> str:
         if not s:
@@ -234,7 +234,7 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
     try:
         squad_resp = await squad_service.create_virtual_account(
             customer_identifier=user_id,
-            first_name=first_name or "EcoNet",
+            first_name=first_name or "alwi",
             last_name=last_name or "User",
             mobile_num=phone,
             email=f"{user_id.lower()}@econet.app",

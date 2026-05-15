@@ -4,7 +4,7 @@ from pydantic import BaseModel, model_validator
 class SendMoneyRequest(BaseModel):
     recipient_id: str
     amount_naira: float
-    narration: str = "EcoNet transfer"
+    narration: str = "alwi transfer"
     amount_kobo: int = 0
 
     @model_validator(mode="after")

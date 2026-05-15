@@ -4,13 +4,13 @@ import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
 
 export const metadata: Metadata = {
-  title: "EcoNet",
+  title: "alwi",
   description: "Your community financial identity",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "EcoNet",
+    title: "alwi",
   },
 };
 

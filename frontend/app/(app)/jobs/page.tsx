@@ -60,9 +60,9 @@ export default function JobsPage() {
   return (
     <div className="flex flex-col min-h-dvh pb-6">
       {/* Header */}
-      <div className="bg-blue-700 px-5 pt-12 pb-5">
+      <div className="bg-hero-pattern px-5 pt-12 pb-5">
         <h1 className="text-xl font-extrabold text-white">Jobs</h1>
-        <p className="text-sm text-blue-200 mt-0.5">Find work or hire someone near you</p>
+        <p className="text-sm text-white/70 mt-0.5">Find work or hire someone near you</p>
       </div>
 
       {/* Tabs */}
@@ -74,7 +74,7 @@ export default function JobsPage() {
             className={cn(
               "flex-1 py-3 text-xs font-bold transition-colors border-b-2",
               tab === t
-                ? "border-blue-600 text-blue-600"
+                ? "border-primary text-primary"
                 : "border-transparent text-muted-foreground hover:text-foreground"
             )}
           >
@@ -122,8 +122,8 @@ function JobFeed() {
 
   if (jobs.length === 0) return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50">
-        <Briefcase className="h-8 w-8 text-blue-600" />
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-accent">
+        <Briefcase className="h-8 w-8 text-primary" />
       </div>
       <p className="text-sm font-bold text-foreground">No jobs near you yet</p>
       <p className="text-xs text-muted-foreground mt-1">Add skills to your profile to get matched.</p>
@@ -175,7 +175,7 @@ function JobCard({ job, onApply, applying }: { job: Job; onApply: () => void; ap
       {expanded && (
         <div className="px-4 pb-4 border-t border-border/40 pt-3">
           <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{job.job_description_raw}</p>
-          <Button className="w-full bg-blue-600 hover:bg-blue-700" size="sm" onClick={onApply} loading={applying}>
+          <Button className="w-full bg-primary hover:bg-primary/90" size="sm" onClick={onApply} loading={applying}>
             Apply Now
           </Button>
         </div>
@@ -234,7 +234,7 @@ function MyJobs() {
             onClick={() => setView(v)}
             className={cn(
               "flex-1 py-2 text-xs font-bold transition-colors",
-              view === v ? "bg-blue-600 text-white" : "bg-white text-muted-foreground"
+              view === v ? "bg-primary text-white" : "bg-white text-muted-foreground"
             )}
           >
             {v === "posted" ? `Posted (${myPosted.length})` : `Applied (${myApps.length})`}
@@ -257,7 +257,7 @@ function MyJobs() {
                   <p className="text-xs font-bold text-primary mt-1">{formatNaira(job.budget_naira * 100)}</p>
                 )}
                 <Button
-                  size="sm" variant="outline" className="mt-3 w-full text-xs border-blue-200 text-blue-600 hover:bg-blue-50"
+                  size="sm" variant="outline" className="mt-3 w-full text-xs border-primary/20 text-primary hover:bg-accent"
                   onClick={() => loadApplicants(job.job_id)}
                 >
                   View Applicants
@@ -272,7 +272,7 @@ function MyJobs() {
                         </div>
                         <Button
                           size="sm"
-                          className="text-xs h-7 px-3 bg-blue-600 hover:bg-blue-700"
+                          className="text-xs h-7 px-3 bg-primary hover:bg-primary/90"
                           loading={accepting === app.worker_id}
                           onClick={() => acceptWorker(job.job_id, app.worker_id)}
                         >
@@ -370,7 +370,7 @@ function PostJob({ onSuccess }: { onSuccess: () => void }) {
 
       <Button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700"
+        className="w-full bg-primary hover:bg-primary/90"
         size="lg"
         loading={loading}
         disabled={!description.trim()}

@@ -24,23 +24,14 @@ class Settings(BaseSettings):
 
     # Termii (kept for reference, replaced by Africa's Talking)
     termii_api_key: str = ""
-    termii_sender_id: str = "EcoNet"
+    termii_sender_id: str = "alwi"
     termii_base_url: str = "https://v3.api.termii.com"
 
-    # Africa's Talking SMS
-    at_api_key: str = ""
-    at_username: str = "sandbox"
-    at_sender_id: str = ""  # optional — sandbox works without a shortcode
-    at_sms_url: str = "https://api.sandbox.africastalking.com/version1/messaging"
 
-    # Africa's Talking WhatsApp (kept but superseded by Wati)
-    at_wa_url: str = "https://chat.africastalking.com/whatsapp/message/send"
-    at_wa_number: str = ""
 
-    # Wati WhatsApp
-    wati_api_url: str = ""        # e.g. https://live-mt-server.wati.io/10156717
-    wati_token: str = ""          # Bearer token from Wati dashboard
-    wati_otp_template: str = "econet_otp"  # WhatsApp-approved template name
+    # Wasender WhatsApp
+    wasender_api_keys: str = ""
+    wasender_api_url: str = "https://www.wasenderapi.com/api/send-message"
 
     # Cloudinary
     cloudinary_cloud_name: str = ""

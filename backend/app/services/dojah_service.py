@@ -13,7 +13,7 @@ _MOCK_IDENTITIES = {
     "44444444444": {"first_name": "Amaka",        "last_name": "Nwosu",    "middle_name": "Grace"},
     "55555555555": {"first_name": "Biodun",       "last_name": "Olatunji", "middle_name": "Segun"},
 }
-_MOCK_DEFAULT = {"first_name": "EcoNet", "last_name": "User", "middle_name": ""}
+_MOCK_DEFAULT = {"first_name": "alwi", "last_name": "User", "middle_name": ""}
 
 
 def _mock_response(kyc_value: str, kyc_type: str) -> dict:

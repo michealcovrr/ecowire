@@ -461,9 +461,9 @@ async def release_escrow(
         await squad_service.transfer(
             account_number=worker_acct.squad_account_number,
             bank_code="000",
-            account_name=worker.full_name or "EcoNet Worker",
+            account_name=worker.full_name or "alwi Worker",
             amount=escrow.amount,
-            narration=f"EcoNet job payment — {chat.job_id[:8]}",
+            narration=f"alwi job payment — {chat.job_id[:8]}",
             transaction_ref=f"release-{escrow.escrow_id[:8]}",
         )
     except Exception as e:

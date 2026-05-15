@@ -96,7 +96,7 @@ export default function JobDetailPage() {
   return (
     <div className="flex flex-col pb-8">
       {/* Header */}
-      <div className="bg-blue-700 px-5 pt-12 pb-5">
+      <div className="bg-hero-pattern px-5 pt-12 pb-5">
         <button onClick={() => router.back()} className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white mb-5">
           <ChevronLeft className="h-4 w-4" /> Back
         </button>
@@ -156,7 +156,7 @@ export default function JobDetailPage() {
 
             {/* Apply button (non-employer) */}
             {!isEmployer && job.status === "open" && (
-              <Button className="w-full bg-blue-600 hover:bg-blue-700" size="lg" onClick={apply} loading={applying}>
+              <Button className="w-full bg-primary hover:bg-primary/90" size="lg" onClick={apply} loading={applying}>
                 Apply for this Job
               </Button>
             )}
@@ -188,7 +188,7 @@ export default function JobDetailPage() {
                       </div>
                       <Button
                         size="sm"
-                        className="bg-blue-600 hover:bg-blue-700 flex-shrink-0"
+                        className="bg-primary hover:bg-primary/90 flex-shrink-0"
                         loading={accepting === app.worker_id}
                         onClick={() => acceptWorker(app.worker_id)}
                       >

@@ -44,9 +44,9 @@ export default function CommunityPage() {
   return (
     <div className="flex flex-col pb-6">
       {/* Header */}
-      <div className="bg-blue-700 px-5 pt-12 pb-5">
+      <div className="bg-hero-pattern px-5 pt-12 pb-5">
         <h1 className="text-xl font-extrabold text-white">Community</h1>
-        <p className="text-sm text-blue-200 mt-0.5">Your local trusted network</p>
+        <p className="text-sm text-white/70 mt-0.5">Your local trusted network</p>
       </div>
 
       <div className="px-4 mt-5 space-y-5">
@@ -69,8 +69,8 @@ export default function CommunityPage() {
             <div className="space-y-2">
               {groups.map((g) => (
                 <div key={g.group_id} className="flex items-center gap-3 rounded-2xl bg-white border border-border/40 shadow-card p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 flex-shrink-0">
-                    <Users className="h-5 w-5 text-blue-600" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent flex-shrink-0">
+                    <Users className="h-5 w-5 text-primary" />
                   </div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-foreground">{g.group_name}</p>

@@ -128,8 +128,8 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 gap-3">
           <FeatureCard
             href="/jobs"
-            icon={<Briefcase className="h-7 w-7 text-blue-600" />}
-            bg="bg-blue-50"
+            icon={<Briefcase className="h-7 w-7 text-primary" />}
+            bg="bg-accent"
             title="Jobs"
             subtitle="Find work or hire"
           />

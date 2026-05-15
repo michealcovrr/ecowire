@@ -13,7 +13,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="EcoNet API",
+    title="alwi API",
     description="Community-anchored financial ecosystem — GTCO HabariPay Squad Hackathon 3.0",
     version="1.0.0",
     lifespan=lifespan,

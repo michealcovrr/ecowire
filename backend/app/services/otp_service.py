@@ -1,6 +1,10 @@
 import random
+import asyncio
 import httpx
 import redis.asyncio as aioredis
+from redis.asyncio.retry import Retry
+from redis.backoff import ExponentialBackoff
+from redis.exceptions import ConnectionError as RedisConnectionError, TimeoutError as RedisTimeoutError
 from app.config import get_settings
 
 settings = get_settings()
@@ -11,7 +15,14 @@ _redis: aioredis.Redis | None = None
 def _get_redis() -> aioredis.Redis:
     global _redis
     if _redis is None:
-        kwargs: dict = {"decode_responses": True}
+        # Upstash idle-closes TCP after ~5min — keepalive + retry survives that.
+        kwargs: dict = {
+            "decode_responses": True,
+            "socket_keepalive": True,
+            "health_check_interval": 30,
+            "retry_on_error": [RedisConnectionError, RedisTimeoutError],
+            "retry": Retry(ExponentialBackoff(cap=1, base=0.1), retries=3),
+        }
         if settings.redis_url.startswith("rediss://"):
             kwargs["ssl_cert_reqs"] = "none"
         _redis = aioredis.from_url(settings.redis_url, **kwargs)
@@ -48,25 +59,25 @@ def _generate_otp() -> str:
 async def send_otp(phone: str) -> bool:
     r = _get_redis()
     normalised = normalise_phone(phone)
+    otp_key = _otp_key(normalised)
+    attempts_key = _attempts_key(normalised)
 
-    attempts = await r.get(_attempts_key(normalised))
+    attempts = await r.get(attempts_key)
     if attempts and int(attempts) >= settings.otp_max_attempts:
         return False
 
     otp = _generate_otp()
-    print(f"[send_otp] storing otp={otp} key={_otp_key(normalised)} ttl={settings.otp_expiry_seconds}", flush=True)
-    await r.setex(_otp_key(normalised), settings.otp_expiry_seconds, otp)
-    check = await r.get(_otp_key(normalised))
-    check_ttl = await r.ttl(_otp_key(normalised))
-    print(f"[send_otp] verified after setex: stored={check} ttl={check_ttl}", flush=True)
 
+    # Pipeline all writes into one network round-trip (Upstash latency matters).
     pipe = r.pipeline()
-    pipe.incr(_attempts_key(normalised))
-    pipe.expire(_attempts_key(normalised), 3600)
+    pipe.setex(otp_key, settings.otp_expiry_seconds, otp)
+    pipe.incr(attempts_key)
+    pipe.expire(attempts_key, 3600)
     await pipe.execute()
 
-    await _dispatch_sms(normalised, otp)
-    print(f"\n{'='*50}\n[DEV] OTP for {normalised}: {otp}\n{'='*50}\n", flush=True)
+    # Fire-and-forget: dispatch SMS/WhatsApp in background so API responds instantly
+    asyncio.create_task(_dispatch_sms(normalised, otp))
+    print(f"[send_otp] queued otp={otp} for {normalised}", flush=True)
     return True
 
 
@@ -86,95 +97,51 @@ async def _dispatch_sms(phone: str, otp: str) -> None:
     print(f"[OTP] {phone} -> {otp}", flush=True)
 
     to = f"+{phone}"
+    delivered = False
 
-    # Wati WhatsApp takes priority (template message — no prior session needed)
-    if settings.wati_api_url and settings.wati_token:
-        await _dispatch_wati(phone, otp)
-    elif settings.at_api_key:
-        await _dispatch_at_sms(to, f"Your EcoNet code is {otp}. Valid for 5 minutes. Do not share.")
+    # Try Wasender WhatsApp first
+    if settings.wasender_api_url and settings.wasender_api_keys:
+        await _dispatch_wasender(phone, otp)
     else:
         print("[DEV] No delivery channel configured — OTP printed above only", flush=True)
 
 
-async def _dispatch_wati(phone: str, otp: str) -> None:
-    message = f"Your EcoNet verification code is {otp}. Valid for 10 minutes. Do not share."
+async def _dispatch_wasender(phone: str, otp: str) -> bool:
+    """Returns True if Wasender confirmed delivery."""
+    keys = [k.strip() for k in settings.wasender_api_keys.split(",") if k.strip()]
+    if not keys:
+        print("[Wasender] No valid API keys found", flush=True)
+        return False
+        
+    r = _get_redis()
+    idx = await r.incr("wasender_api_key_idx")
+    selected_key = keys[idx % len(keys)]
+
+    message = f"Your alwi verification code is {otp}. Valid for 10 minutes. Do not share."
     headers = {
-        "Authorization": f"Bearer {settings.wati_token}",
+        "Authorization": f"Bearer {selected_key}",
         "Content-Type": "application/json",
     }
-
-    # Ensure contact exists in Wati (required before session message can be sent)
-    try:
-        async with httpx.AsyncClient(verify=False, timeout=10) as client:
-            await client.post(
-                f"{settings.wati_api_url}/api/v1/addContact/{phone}",
-                headers=headers,
-            )
-    except Exception:
-        pass  # Non-fatal — contact may already exist
-
-    # Step 1: session message (works when contact has messaged the bot within 24h)
-    session_delivered = False
-    try:
-        session_url = f"{settings.wati_api_url}/api/v1/sendSessionMessage/{phone}"
-        async with httpx.AsyncClient(verify=False, timeout=15) as client:
-            resp = await client.post(session_url, params={"messageText": message}, headers=headers)
-        print(f"[Wati session] status={resp.status_code} body={resp.text[:300]}", flush=True)
-        try:
-            body_json = resp.json()
-            session_delivered = bool(body_json.get("result"))
-        except Exception:
-            session_delivered = resp.status_code < 400
-    except Exception as e:
-        print(f"[Wati session ERROR] {type(e).__name__}: {e}", flush=True)
-
-    if session_delivered:
-        print(f"[Wati] OTP delivered via session message to {phone}", flush=True)
-        return
-
-    # Step 2: template fallback (requires APPROVED template in Wati dashboard)
-    if not settings.wati_otp_template:
-        print("[Wati] No approved template — OTP only in server logs.", flush=True)
-        return
-
-    print(f"[Wati] Trying template '{settings.wati_otp_template}'...", flush=True)
-    try:
-        payload = {
-            "template_name": settings.wati_otp_template,
-            "broadcast_name": f"otp_{phone[-6:]}",
-            "parameters": [{"name": "1", "value": otp}],
-        }
-        async with httpx.AsyncClient(verify=False, timeout=15) as client:
-            resp = await client.post(
-                f"{settings.wati_api_url}/api/v1/sendTemplateMessage",
-                json=payload,
-                params={"whatsappNumber": phone},
-                headers=headers,
-            )
-        print(f"[Wati template] status={resp.status_code} body={resp.text}", flush=True)
-    except Exception as e:
-        print(f"[Wati template ERROR] {type(e).__name__}: {e}", flush=True)
-
-
-async def _dispatch_at_sms(to: str, message: str) -> None:
-    form_data = {
-        "username": settings.at_username,
-        "to": to,
-        "message": message,
+    payload = {
+        "to": phone,
+        "text": message
     }
-    if settings.at_sender_id:
-        form_data["from"] = settings.at_sender_id
 
     try:
         async with httpx.AsyncClient(verify=False, timeout=15) as client:
             resp = await client.post(
-                settings.at_sms_url,
-                data=form_data,
-                headers={
-                    "apiKey": settings.at_api_key,
-                    "Accept": "application/json",
-                },
+                settings.wasender_api_url,
+                json=payload,
+                headers=headers,
             )
-            print(f"[AT SMS] status={resp.status_code} body={resp.text}", flush=True)
+        print(f"[Wasender] status={resp.status_code} body={resp.text[:300]}", flush=True)
+        if resp.status_code < 400:
+            print(f"[Wasender] OTP delivered to {phone}", flush=True)
+            return True
+        else:
+            print(f"[Wasender] Message returned failure for {phone}", flush=True)
+            return False
     except Exception as e:
-        print(f"[AT SMS ERROR] {type(e).__name__}: {e}", flush=True)
+        print(f"[Wasender ERROR] {type(e).__name__}: {e}", flush=True)
+        return False
+
