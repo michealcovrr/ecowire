@@ -1,0 +1,329 @@
+
+> econet-frontend@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ○ Compiling /auth/phone ...
+ ✓ Compiled /auth/phone in 2.7s (534 modules)
+ GET /auth/phone 200 in 2883ms
+ ✓ Compiled in 272ms (260 modules)
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'C:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js', but to 'c:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected C:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Resolving '../../../typescript/lib/typescript' in c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build for build dependencies doesn't lead to expected result 'C:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js', but to 'c:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js' instead. Resolving dependencies are ignored for this path.
+<w>  at resolve commonjs file ../../../typescript/lib/typescript (expected C:\Users\micheal\Downloads\squad\frontend\node_modules\typescript\lib\typescript.js)
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\load-jsconfig.js
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack-config.js
+<w>  at file dependencies c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at file c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+<w>  at resolve commonjs c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\build\webpack\loaders\next-swc-loader.js
+ GET /auth/phone 200 in 56ms
+ ✓ Compiled /auth/verify in 326ms (532 modules)
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 564ms (613 modules)
+ GET /auth/phone 200 in 180ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1286ms (662 modules)
+ GET /favicon.ico 200 in 1563ms
+ GET /icons/icon-192.png 404 in 1557ms
+ GET /icons/icon-192.png 404 in 43ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 58ms
+ ✓ Compiled /finance in 414ms (638 modules)
+ GET /finance/log 404 in 69ms
+ GET /auth/phone 200 in 59ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 14ms
+ ✓ Compiled /favicon.ico in 250ms (656 modules)
+ GET /favicon.ico 200 in 386ms
+ GET /icons/icon-192.png 404 in 380ms
+ GET /auth/phone 200 in 59ms
+ ✓ Compiled / in 396ms (639 modules)
+ GET / 307 in 605ms
+ GET /auth/phone 200 in 114ms
+ ✓ Compiled /_not-found in 322ms (628 modules)
+ GET /icons/icon-192.png 404 in 222ms
+ GET /finance/log 404 in 17ms
+ GET /dashboard 200 in 47ms
+ ✓ Compiled in 622ms (631 modules)
+ ✓ Compiled in 258ms (631 modules)
+ ✓ Compiled in 195ms (308 modules)
+ ✓ Compiled in 151ms (308 modules)
+ ✓ Compiled in 110ms (308 modules)
+ ✓ Compiled in 217ms (617 modules)
+ ✓ Compiled in 303ms (625 modules)
+ GET /auth/phone 200 in 73ms
+ ○ Compiling /auth/kyc ...
+ ✓ Compiled /auth/kyc in 670ms (637 modules)
+ GET /auth/kyc 200 in 844ms
+ ✓ Compiled in 290ms (310 modules)
+ ✓ Compiled /auth/pin in 322ms (629 modules)
+ GET /auth/pin 200 in 473ms
+ ✓ Compiled /auth/success in 316ms (655 modules)
+ GET /auth/success 200 in 399ms
+ GET /auth/phone 200 in 75ms
+ GET /auth/phone 200 in 67ms
+ ✓ Compiled /_not-found in 358ms (626 modules)
+ GET /icons/icon-192.png 404 in 499ms
+ ✓ Compiled /auth/kyc in 135ms (327 modules)
+ GET /auth/phone 200 in 109ms
+ ✓ Compiled /auth/success in 134ms (334 modules)
+ ✓ Compiled in 427ms (651 modules)
+ ✓ Compiled in 144ms (317 modules)
+ ✓ Compiled in 270ms (651 modules)
+ ✓ Compiled in 279ms (651 modules)
+ ✓ Compiled in 267ms (651 modules)
+ GET /auth/phone 200 in 78ms
+ ✓ Compiled /_not-found in 265ms (640 modules)
+ GET /wallet/receive 404 in 98ms
+ GET /dashboard 200 in 76ms
+ GET /dashboard 200 in 55ms
+ ✓ Compiled /profile in 329ms (662 modules)
+ GET /profile/kyc-upgrade 404 in 62ms
+ GET /profile 200 in 49ms
+ ✓ Compiled /more in 300ms (670 modules)
+ ✓ Compiled /jobs in 234ms (678 modules)
+ ✓ Compiled in 205ms (328 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 419ms (667 modules)
+ GET /dashboard 200 in 411ms
+ ✓ Compiled in 231ms (331 modules)
+ ✓ Compiled in 400ms (671 modules)
+ ✓ Compiled in 130ms (332 modules)
+ ✓ Compiled in 119ms (332 modules)
+ ✓ Compiled in 197ms (657 modules)
+ ✓ Compiled in 126ms (332 modules)
+ ✓ Compiled in 157ms (657 modules)
+ ✓ Compiled in 390ms (343 modules)
+ ✓ Compiled in 108ms (343 modules)
+ ✓ Compiled in 285ms (668 modules)
+ ✓ Compiled in 166ms (343 modules)
+ ✓ Compiled in 185ms (343 modules)
+ ✓ Compiled /_not-found in 398ms (685 modules)
+ GET /wallet/send 404 in 88ms
+ GET /dashboard 200 in 70ms
+ ✓ Compiled in 680ms (680 modules)
+ ✓ Compiled in 265ms (680 modules)
+ ✓ Compiled in 132ms (342 modules)
+ ✓ Compiled in 134ms (342 modules)
+ ✓ Compiled in 108ms (342 modules)
+ ✓ Compiled in 472ms (680 modules)
+ ○ Compiling /wallet ...
+ ✓ Compiled /wallet in 538ms (679 modules)
+ GET /wallet?sheet=receive 200 in 110ms
+ GET /wallet?sheet=receive 200 in 49ms
+ ✓ Compiled in 464ms (347 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at loadManifest (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\load-manifest.js:36:25)
+    at DevServer.getNextFontManifest (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\next-server.js:750:47)
+    at DevServer.findPageComponents (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\dev\next-dev-server.js:571:43)
+    at async DevServer.renderPageComponent (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\base-server.js:1910:24)
+    at async DevServer.renderToResponseImpl (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\base-server.js:1962:32)
+    at async DevServer.pipeImpl (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\base-server.js:818:17)
+    at async c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\lib\router-server.js:179:21)
+    at async handleRequest (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\lib\router-server.js:359:24)
+    at async requestHandlerImpl (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\lib\router-server.js:383:13)
+    at async Server.requestListener (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\server\lib\start-server.js:141:13) {
+  page: '/wallet'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1739ms (899 modules)
+ GET /wallet?sheet=receive 200 in 106ms
+ ✓ Compiled in 577ms (913 modules)
+request to https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 1/3...
+request to https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 1/3...
+request to https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 2/3...
+request to https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 2/3...
+request to https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 3/3...
+request to https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+
+Retrying 3/3...
+FetchError: request to https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+    at ClientRequest.<anonymous> (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\compiled\node-fetch\index.js:1:66160)
+    at ClientRequest.emit (node:events:508:28)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  type: 'system',
+  errno: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+  code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'
+}
+ ⨯ Failed to download `Plus Jakarta Sans` from Google Fonts. Using fallback font instead.
+
+Failed to fetch `Plus Jakarta Sans` from Google Fonts.}
+FetchError: request to https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+    at ClientRequest.<anonymous> (c:\Users\micheal\Downloads\squad\frontend\node_modules\next\dist\compiled\node-fetch\index.js:1:66160)
+    at ClientRequest.emit (node:events:508:28)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  type: 'system',
+  errno: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+  code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'
+}
+ ⨯ Failed to download `Inter` from Google Fonts. Using fallback font instead.
+
+Failed to fetch `Inter` from Google Fonts.}
+ ✓ Compiled in 4s (925 modules)
+ ✓ Compiled in 490ms (918 modules)
+ ✓ Compiled in 259ms (918 modules)
+ ✓ Compiled in 172ms (537 modules)
+ ✓ Compiled in 118ms (537 modules)
+ ✓ Compiled in 127ms (537 modules)
+ ✓ Compiled in 129ms (537 modules)
+ ✓ Compiled in 125ms (537 modules)
+ ✓ Compiled in 483ms (921 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /wallet?sheet=receive 200 in 99ms
+ ✓ Compiled in 140ms (538 modules)
+ ✓ Compiled in 130ms (538 modules)
+ ✓ Compiled in 162ms (538 modules)
+ ✓ Compiled in 2s (1719 modules)
+ ✓ Compiled in 350ms (938 modules)
+ ✓ Compiled in 267ms (940 modules)
+ ✓ Compiled in 571ms (1723 modules)
+ ✓ Compiled in 226ms (941 modules)
+ ✓ Compiled in 493ms (1725 modules)
+ ✓ Compiled in 404ms (945 modules)
+ ✓ Compiled in 1199ms (1845 modules)
+ ✓ Compiled in 839ms (1849 modules)
+ ✓ Compiled in 520ms (1851 modules)
+ ✓ Compiled in 271ms (1004 modules)
+ ✓ Compiled in 160ms (1004 modules)
+ ✓ Compiled in 222ms (1004 modules)
+ ✓ Compiled in 271ms (1004 modules)
+ ✓ Compiled in 418ms (1003 modules)
+ ✓ Compiled in 174ms (1003 modules)
+ ✓ Compiled in 545ms (1836 modules)
+ ✓ Compiled in 177ms (1003 modules)
+ ✓ Compiled in 630ms (1836 modules)
+ ✓ Compiled in 205ms (1003 modules)
+ ✓ Compiled in 542ms (1850 modules)
+ ✓ Compiled in 169ms (1003 modules)
+ ✓ Compiled in 396ms (1850 modules)
+ ✓ Compiled in 198ms (1003 modules)
+ ✓ Compiled in 483ms (1836 modules)
+ ✓ Compiled in 185ms (1003 modules)
+ ✓ Compiled in 317ms (1836 modules)
+ ✓ Compiled in 215ms (1003 modules)
+ ✓ Compiled in 498ms (1836 modules)
+ ✓ Compiled in 837ms (1843 modules)
+ ✓ Compiled in 931ms (1843 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 527ms (1832 modules)
+ GET /_next/static/css/app/layout.css?v=1778836793046 404 in 637ms
+ GET /_next/static/css/app/layout.css?v=1778836793726 404 in 39ms
+ ✓ Compiled in 240ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836794417 404 in 73ms
+ ✓ Compiled in 222ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836833301 404 in 70ms
+ ✓ Compiled in 204ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836843891 404 in 41ms
+ ✓ Compiled in 176ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836844900 404 in 61ms
+ ✓ Compiled in 310ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836846070 404 in 81ms
+ ✓ Compiled in 214ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836895452 404 in 65ms
+ ✓ Compiled in 258ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836896528 404 in 70ms
+ ✓ Compiled in 176ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836897492 404 in 72ms
+ ✓ Compiled in 431ms (1846 modules)
+ GET /_next/static/css/app/layout.css?v=1778836898805 404 in 87ms
+ ✓ Compiled in 407ms (1846 modules)
+ GET /_next/static/css/app/layout.css?v=1778836899825 404 in 80ms
+ ✓ Compiled in 173ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778836900593 404 in 41ms
+ ✓ Compiled in 168ms (1000 modules)
+ ✓ Compiled in 448ms (1832 modules)
+ GET /_next/static/css/app/layout.css?v=1778836903667 404 in 326ms
+ GET /_next/static/css/app/layout.css?v=1778836904018 404 in 47ms
+ ✓ Compiled in 319ms (998 modules)
+ ✓ Compiled /_not-found in 306ms (1832 modules)
+ GET /_next/static/css/app/layout.css?v=1778837024009 404 in 427ms
+ ✓ Compiled in 473ms (998 modules)
+ ✓ Compiled /_not-found in 221ms (1832 modules)
+ GET /_next/static/css/app/layout.css?v=1778837187153 404 in 341ms
+ ✓ Compiled in 222ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778837212526 404 in 75ms
+ ✓ Compiled in 239ms (1000 modules)
+ GET /_next/static/css/app/layout.css?v=1778837264258 404 in 36ms
+ ✓ Compiled / in 259ms (854 modules)
+ GET / 307 in 713ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 603ms (1842 modules)
+ GET /wallet?sheet=receive 404 in 23ms
+ GET /wallet?sheet=receive 404 in 14ms
+ GET /wallet?sheet=receive 404 in 14ms
+ GET /wallet?sheet=receive 404 in 11ms
+ GET /wallet?sheet=receive 404 in 13ms
+ GET /wallet?sheet=receive 404 in 25ms
+ GET /wallet?sheet=receive 404 in 26ms
+ GET /wallet?sheet=receive 404 in 23ms
+ GET /wallet?sheet=receive 404 in 24ms
+ GET /wallet?sheet=receive 404 in 16ms
+ GET /wallet?sheet=receive 404 in 21ms
+ GET /wallet?sheet=receive 404 in 20ms
+ GET /wallet?sheet=receive 404 in 13ms
+ GET /wallet?sheet=receive 404 in 24ms
+ GET /wallet?sheet=receive 404 in 11ms
+ GET /wallet?sheet=receive 404 in 26ms
+ GET /wallet?sheet=receive 404 in 28ms
+ GET /wallet?sheet=receive 404 in 12ms
+ GET /wallet?sheet=receive 404 in 11ms
+ GET /wallet?sheet=receive 404 in 25ms
+ GET /wallet?sheet=receive 404 in 12ms
+ GET /wallet?sheet=receive 404 in 14ms
+ GET /wallet?sheet=receive 404 in 25ms
+ GET /wallet?sheet=receive 404 in 27ms
+ GET /wallet?sheet=receive 404 in 11ms
+ GET /wallet?sheet=receive 404 in 29ms
+ GET /wallet?sheet=receive 404 in 12ms
+ GET /wallet?sheet=receive 404 in 15ms
+ GET /wallet?sheet=receive 404 in 25ms
+ GET /wallet?sheet=receive 404 in 26ms
+ GET /wallet?sheet=receive 404 in 11ms
+ GET /wallet?sheet=receive 404 in 14ms
+ GET / 307 in 113ms
+ ✓ Compiled /auth/phone in 422ms (859 modules)
+ GET /wallet?sheet=receive 404 in 463ms
+ GET /auth/phone 200 in 644ms
+ GET /auth/phone 200 in 64ms
+ GET / 404 in 9ms
+ GET /auth/phone 200 in 51ms
+ GET / 404 in 10ms
+[?25h

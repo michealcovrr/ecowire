@@ -1,0 +1,175 @@
+INFO:     Will watch for changes in these directories: ['C:\\Users\\micheal\\Downloads\\squad\\backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [5140] using WatchFiles
+C:\Users\micheal\Downloads\squad\backend\app\routers\finance.py:445: FastAPIDeprecationWarning: `regex` has been deprecated, please use `pattern` instead
+  period: str = Query("monthly", regex="^(weekly|monthly)$"),
+INFO:     Started server process [23688]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+[send_otp] storing otp=952700 key=otp:2348055556666 ttl=600
+[send_otp] verified after setex: stored=952700 ttl=599
+[OTP] 2348055556666 -> 952700
+[Wati session] status=200 body={"result":false,"info":"Invalid Contact"}
+[Wati] Session failed — trying template 'econet_otp'...
+[Wati template] status=400 body={"result":false,"info":"Whatsapp number should not be null or empty","validWhatsAppNumber":false}
+
+==================================================
+[DEV] OTP for 2348055556666: 952700
+==================================================
+
+INFO:     127.0.0.1:56552 - "POST /auth/send-otp HTTP/1.1" 200 OK
+[verify-otp] phone=2348055556666 valid=True
+[verify-otp] existing_user=None
+[verify-otp] temp_token issued=5a8ff327-2246-4af4-a3e9-41d0cd3ec754
+INFO:     127.0.0.1:56566 - "POST /auth/verify-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "OPTIONS /auth/send-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "POST /auth/send-otp HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\connection.py", line 670, in send_packed_command
+    await self._writer.drain()
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\asyncio\streams.py", line 374, in drain
+    raise exc
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\asyncio\selector_events.py", line 984, in _read_ready__get_buffer
+    nbytes = self._sock.recv_into(buf)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 421, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 56, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\cors.py", line 96, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\cors.py", line 154, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\fastapi\routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micheal\Downloads\squad\backend\app\routers\auth.py", line 42, in send_otp
+    sent = await otp_service.send_otp(phone)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micheal\Downloads\squad\backend\app\services\otp_service.py", line 52, in send_otp
+    attempts = await r.get(_attempts_key(normalised))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\client.py", line 781, in execute_command
+    result = await conn.retry.call_with_retry(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\retry.py", line 81, in call_with_retry
+    raise error
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\retry.py", line 69, in call_with_retry
+    return await do()
+           ^^^^^^^^^^
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\client.py", line 721, in _send_command_parse_response
+    await conn.send_command(*args)
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\connection.py", line 694, in send_command
+    await self.send_packed_command(
+        self.pack_command(*args), check_health=kwargs.get("check_health", True)
+    )
+  File "C:\Users\micheal\AppData\Local\Programs\Python\Python314\Lib\site-packages\redis\asyncio\connection.py", line 681, in send_packed_command
+    raise ConnectionError(
+        f"Error {err_no} while writing to socket. {errmsg}."
+    ) from e
+redis.exceptions.ConnectionError: Error 10054 while writing to socket. An existing connection was forcibly closed by the remote host.
+INFO:     127.0.0.1:63839 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63975 - "OPTIONS /auth/send-otp HTTP/1.1" 200 OK
+[send_otp] storing otp=232443 key=otp:2347040684933 ttl=600
+[send_otp] verified after setex: stored=232443 ttl=596
+[OTP] 2347040684933 -> 232443
+[Wati session] status=200 body={"ok":true,"result":"success","message":{"whatsappMessageId":"wamid.HBgNMjM0NzA0MDY4NDkzMxUCABEYEkIyM0M0MUM2N0Q4MUZBQjcyNgA=","localMessageId":"76c2572f-7670-4d00-a418-a59fb0ef1b20","text":"Your EcoNet verification code is 232443. Valid for 10 minutes. Do not share.","media":null,"messageContact":null,"location":null,"type":"text","time":"1778787776","status":1,"statusString":"SENT","isOwner":true,"botType":null,"isUnread":false,"ticketId":"6a0525dd86156b9e459de131","avatarUrl":null,"assignedId":"6a0332eb531d3ad9055dcb59","operatorName":null,"replyContextId":null,"sourceType":0,"failedDetail":null,"failedCode":null,"messageReferral":null,"googleAdsReferral":null,"tikTokAdsReferral":null,"messageProducts":null,"orderProducts":null,"orderDetails":null,"paymentStatus":null,"interactiveData":null,"referenceOrderId":null,"isDeleted":false,"replyButtonPayload":null,"reactions":null,"audioTranscriptionStatus":null,"filePath":null,"isDelayed":false,"translationText":null,"translationStatus":0,"translateTo":null,"callDirection":null,"callEvent":null,"callSession":null,"callDuration":0,"callStatus":null,"callStartTime":0,"callEndTime":0,"callAcceptedBy":null,"callRejectedBy":null,"callInitiatedBy":null,"isCallMadeByExternalAgent":false,"callPermissionReply":null,"id":"6a0625c06c0cf24cb35c7702","tenantId":"10156717","created":"2026-05-14T19:42:56.1672959Z","conversationId":"6a0525dcf96a048eaf995205","channelId":null,"channelType":0,"importTaskId":null}}
+[Wati] OTP delivered via session message to 2347040684933
+
+==================================================
+[DEV] OTP for 2347040684933: 232443
+==================================================
+
+INFO:     127.0.0.1:63975 - "POST /auth/send-otp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63977 - "OPTIONS /auth/verify-otp HTTP/1.1" 200 OK
+[verify-otp] phone=2347040684933 valid=True
+[verify-otp] DB ERROR: InterfaceError: (sqlalchemy.dialects.postgresql.asyncpg.InterfaceError) <class 'asyncpg.exceptions._base.InterfaceError'>: connection is closed
+[SQL: SELECT users.user_id, users.phone_number, users.full_name, users.kyc_type, users.kyc_value, users.kyc_tier, users.kyc_status, users.active_role, users.onboarding_channel, users.agent_id, users.location_lat, users.location_lng, users.location_lga, users.preferred_language, users.created_at, users.updated_at 
+FROM users 
+WHERE users.phone_number = $1::VARCHAR]
+[parameters: ('2347040684933',)]
+(Background on this error at: https://sqlalche.me/e/20/rvf5)
+INFO:     127.0.0.1:63978 - "POST /auth/verify-otp HTTP/1.1" 500 Internal Server Error
+[verify-otp] phone=2347040684933 valid=False
+INFO:     127.0.0.1:64029 - "POST /auth/verify-otp HTTP/1.1" 400 Bad Request
+[send_otp] storing otp=537759 key=otp:2347040684933 ttl=600
+[send_otp] verified after setex: stored=537759 ttl=597
+[OTP] 2347040684933 -> 537759
+[Wati session] status=200 body={"ok":true,"result":"success","message":{"whatsappMessageId":"wamid.HBgNMjM0NzA0MDY4NDkzMxUCABEYEkUxNzgyQjJGNjlEN0JCNzNFRgA=","localMessageId":"e85c3477-cb0c-40f0-a8d5-1b5cf2a9c96d","text":"Your EcoNet verification code is 537759. Valid for 10 minutes. Do not share.","media":null,"messageContact":null,"location":null,"type":"text","time":"1778787860","status":1,"statusString":"SENT","isOwner":true,"botType":null,"isUnread":false,"ticketId":"6a0525dd86156b9e459de131","avatarUrl":null,"assignedId":"6a0332eb531d3ad9055dcb59","operatorName":null,"replyContextId":null,"sourceType":0,"failedDetail":null,"failedCode":null,"messageReferral":null,"googleAdsReferral":null,"tikTokAdsReferral":null,"messageProducts":null,"orderProducts":null,"orderDetails":null,"paymentStatus":null,"interactiveData":null,"referenceOrderId":null,"isDeleted":false,"replyButtonPayload":null,"reactions":null,"audioTranscriptionStatus":null,"filePath":null,"isDelayed":false,"translationText":null,"translationStatus":0,"translateTo":null,"callDirection":null,"callEvent":null,"callSession":null,"callDuration":0,"callStatus":null,"callStartTime":0,"callEndTime":0,"callAcceptedBy":null,"callRejectedBy":null,"callInitiatedBy":null,"isCallMadeByExternalAgent":false,"callPermissionReply":null,"id":"6a062614cb1edd9137999d97","tenantId":"10156717","created":"2026-05-14T19:44:20.5175834Z","conversationId":"6a0525dcf96a048eaf995205","channelId":null,"channelType":0,"importTaskId":null}}
+[Wati] OTP delivered via session message to 2347040684933
+
+==================================================
+[DEV] OTP for 2347040684933: 537759
+==================================================
+
+INFO:     127.0.0.1:64030 - "POST /auth/send-otp HTTP/1.1" 200 OK
+[verify-otp] phone=2347040684933 valid=False
+INFO:     127.0.0.1:64066 - "POST /auth/verify-otp HTTP/1.1" 400 Bad Request
+[verify-otp] phone=2347040684933 valid=True
+[verify-otp] existing_user=<app.models.user.User object at 0x000002079D9F2120>
+INFO:     127.0.0.1:64067 - "POST /auth/verify-otp HTTP/1.1" 200 OK
+[verify-otp] phone=2347040684933 valid=False
+INFO:     127.0.0.1:64067 - "POST /auth/verify-otp HTTP/1.1" 400 Bad Request
+INFO:     127.0.0.1:64067 - "OPTIONS /wallet/balance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64067 - "OPTIONS /wallet/balance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64067 - "GET /wallet/balance HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64067 - "GET /wallet/balance HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64191 - "OPTIONS /wallet/balance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64192 - "OPTIONS /wallet/balance HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64191 - "GET /wallet/balance HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:64191 - "GET /wallet/balance HTTP/1.1" 401 Unauthorized
+WARNING:  WatchFiles detected changes in 'app\models\user.py'. Reloading...
+ INFO:     127.0.0.1:50658 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50660 - "POST /auth/check-phone HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:50767 - "POST /auth/check-phone HTTP/1.1" 404 Not Found

@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F5F1E8;
+    --foreground: #1A1A14;
+    --primary: #0F3D2E;
+    --primary-foreground: #FAFAF8;
+    --secondary: #EDE9E0;
+    --secondary-foreground: #3D3D30;
+    --muted: #E8E4DA;
+    --muted-foreground: #6B6B55;
+    --accent: #DFF2E8;
+    --accent-foreground: #0F3D2E;
+    --gold: #C8A96B;
+    --border: #E0DAD0;
+    --card: #FFFFFF;
+    --radius: 1rem;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    background-color: #DCD8CF; /* Subtle muted background for desktop monitors */
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-jakarta), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    position: relative;
+    box-shadow: 0 0 50px rgba(15, 61, 46, 0.15);
+  }
+
+  :focus-visible {
+    outline: 2px solid #0F3D2E;
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Shimmer skeleton effect */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #E8E4DA 25%,
+      #F0EDE6 50%,
+      #E8E4DA 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+  }
+
+  /* Glass morphism */
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgb(245 241 232 / 0.80);
+    border: 1px solid rgb(255 255 255 / 0.5);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgb(15 61 46 / 0.88);
+    border: 1px solid rgb(255 255 255 / 0.1);
+  }
+}
+
+/* ─── OTP / PIN input ───────────────────────────────────────────────────── */
+[data-input-otp] {
+  display: flex;
+  gap: 10px;
+}
+
+[data-input-otp-slot] {
+  width: 48px;
+  height: 58px;
+  border: 2px solid #E0DAD0;
+  border-radius: 14px;
+  font-size: 26px;
+  font-weight: 700;
+  font-family: var(--font-jakarta), sans-serif;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  background: white;
+  color: #1A1A14;
+  box-shadow: 0 1px 3px rgb(15 61 46 / 0.06);
+}
+
+[data-input-otp-slot][data-active] {
+  border-color: #0F3D2E;
+  box-shadow: 0 0 0 3px rgb(15 61 46 / 0.12), 0 1px 3px rgb(15 61 46 / 0.06);
+}
+
+/* ─── Vaul drawer ───────────────────────────────────────────────────────── */
+[vaul-drawer] {
+  touch-action: none;
+  will-change: transform;
+}
+
+[vaul-drawer-wrapper] {
+  background: var(--background);
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* slide-in-from-bottom for toast (legacy compat) */
+@keyframes slide-in-from-bottom {
+  from { transform: translateY(1rem); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.slide-in-from-bottom-4 {
+  animation-name: slide-in-from-bottom;
+  animation-duration: 0.22s;
+  animation-timing-function: ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}

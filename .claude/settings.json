@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash(npx tsc --noEmit *)",
+      "Bash(curl -s http://localhost:8000 *)",
+      "Bash(curl -s -X POST http://localhost:8000 *)",
+      "Bash(curl -s http://localhost:3000 *)"
+    ]
+  },
+  "skipDangerousModePermissionPrompt": true
+}
