@@ -1201,16 +1201,51 @@ async def main():
         random.seed(42)   # reproducible
 
         user_ids = await seed_users(db, n=100)
-        await seed_intents(db, user_ids)
-        user_tags = await seed_work_profiles(db, user_ids, n=70)
-        await seed_proof_media(db, user_tags, n=50)
+        # community groups must exist before per-user populator can join the user to their LGA
         await seed_community(db, user_ids)
         await seed_connections(db, user_ids, n=250)
-        await seed_transactions(db, user_ids, n=300)
+        # jobs cluster — gives us completed jobs to drive recommendations & escrow stories
+        # We still need work-profiles for some seeded users so jobs have workers to match.
+        user_tags = await seed_work_profiles(db, user_ids, n=70)
+        await seed_proof_media(db, user_tags, n=50)
         await seed_jobs_and_recs(db, user_ids, user_tags)
         await seed_disputes(db, user_ids)
+        # Loans/savings/insurance + agent stories (also seeds some per-user records;
+        # the populator below layers more on top so every user is heavily populated)
         await seed_financial(db, user_ids)
         await seed_ai_and_agents(db, user_ids)
+
+        # Now, the critical piece: every user gets a heavy per-user activity sweep.
+        # This guarantees no user is empty when someone logs in as them.
+        print("\nRunning per-user populator across all 100 seeded users...")
+        from app.services.profile_populator import populate_user_profile
+        for i, uid in enumerate(user_ids, 1):
+            await populate_user_profile(db, uid, peer_user_ids=user_ids, commit=False)
+            if i % 20 == 0:
+                await db.commit()
+                print(f"  ...populated {i}/{len(user_ids)} users")
+        await db.commit()
+        print(f"  [OK] populator ran for all {len(user_ids)} users")
+
+        # Backfill any REAL users (signed up outside seeding) so they're also lived-in
+        real_result = await db.execute(
+            text("SELECT user_id FROM users WHERE user_id NOT LIKE 'ECO-SEED-%'")
+        )
+        real_ids = [r[0] for r in real_result.fetchall()]
+        if real_ids:
+            print(f"\nBackfilling {len(real_ids)} real user(s)...")
+            for uid in real_ids:
+                # Check if they have any transactions; if so, skip (already lived-in)
+                txn_count = await db.execute(
+                    text("SELECT COUNT(*) FROM transactions WHERE sender_user_id=:u OR receiver_user_id=:u"),
+                    {"u": uid},
+                )
+                if txn_count.scalar() >= 5:
+                    print(f"  skip {uid} (already has activity)")
+                    continue
+                counts = await populate_user_profile(db, uid, peer_user_ids=user_ids, commit=False)
+                print(f"  populated {uid}: {counts}")
+            await db.commit()
 
         await report(db)
 

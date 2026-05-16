@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
-from app.routers import auth, wallet, webhooks, intent, profile, jobs, finance, chat, workers
+from app.routers import auth, wallet, webhooks, intent, profile, community, jobs, finance, chat, workers
 
 settings = get_settings()
 
@@ -34,6 +34,7 @@ app.include_router(intent.router, prefix="/intent", tags=["Module 3 — Intent R
 app.include_router(profile.router, prefix="/profile", tags=["Module 4 — Work Profile"])
 app.include_router(jobs.router, prefix="/jobs", tags=["Module 7 — Job Posting & Matching"])
 app.include_router(workers.router, prefix="/workers", tags=["Module 5 — Voice to Search"])
+app.include_router(community.router, prefix="/community", tags=["Module 5 — Community Circles"])
 app.include_router(finance.router, prefix="/finance", tags=["Modules 11-13 — Finance"])
 app.include_router(chat.router, prefix="/chat", tags=["Module 8+9 — Chat & Escrow"])
 

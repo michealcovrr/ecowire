@@ -13,6 +13,7 @@ from app.schemas.common import ok
 from app.services import squad_service
 from app.services.otp_service import normalise_phone, send_otp, verify_otp
 from app.services import kyc_service
+from app.services.profile_populator import populate_user_profile
 from app.utils.security import create_access_token, get_current_user, settings
 from app.utils.id_generator import generate_unique_user_id
 from app.utils.qr_generator import generate_qr_base64
@@ -204,6 +205,17 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
     user_id = await generate_unique_user_id(db)
     encrypted_kyc = encrypt_value(body.kyc_value)
 
+    # Default LGA so new users immediately appear in a community circle.
+    # In production this should come from device GPS or address geocoding.
+    import random as _rand
+    _DEFAULT_LGAS = [
+        ("Yaba", 6.5172, 3.3700), ("Surulere", 6.4970, 3.3585),
+        ("Ikeja", 6.6018, 3.3515), ("Lekki", 6.4474, 3.5550),
+        ("Lagos Island", 6.4541, 3.3947), ("Gbagada", 6.5536, 3.3879),
+        ("Mushin", 6.5337, 3.3540), ("Festac", 6.4677, 3.2767),
+    ]
+    _lga, _lat, _lng = _rand.choice(_DEFAULT_LGAS)
+
     user = User(
         user_id=user_id,
         phone_number=phone,
@@ -213,6 +225,9 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
         kyc_tier=1,
         kyc_status="tier_1",
         onboarding_channel="self",
+        location_lga=_lga,
+        location_lat=_lat,
+        location_lng=_lng,
     )
     db.add(user)
     await db.flush()
@@ -263,6 +278,13 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
         print(f"[WARN] Squad VA failed for {user_id}: {type(e).__name__}: {e}", flush=True)
 
     await db.commit()
+
+    # Auto-populate the new user with realistic activity so first login feels lived-in
+    try:
+        counts = await populate_user_profile(db, user_id)
+        print(f"[populate] {user_id}: {counts}", flush=True)
+    except Exception as e:
+        print(f"[WARN] Populate failed for {user_id}: {type(e).__name__}: {e}", flush=True)
 
     token = create_access_token(user_id)
     qr_code = generate_qr_base64(user_id)
