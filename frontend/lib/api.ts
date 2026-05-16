@@ -20,7 +20,7 @@ async function request<T>(
 
   const res = await fetch(`${BASE}${path}`, { ...options, headers });
   const raw = await res.text();
-  let json: any = null;
+  let json: { success?: boolean; detail?: string; error?: string; data?: unknown } = {};
   try {
     json = raw ? JSON.parse(raw) : {};
   } catch {
