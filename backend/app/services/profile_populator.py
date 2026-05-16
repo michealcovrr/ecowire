@@ -123,6 +123,50 @@ AI_Q_AND_A = [
      "Your score updates after every transaction, job, or financial log. Be consistent for 30+ days."),
 ]
 
+JOB_TEMPLATES = [
+    ("Need an electrician to fix wiring in my shop. 2 fans and AC not working.", ["electrical"], 15000),
+    ("Looking for a plumber for leaking kitchen pipe. Urgent.", ["plumbing"], 8000),
+    ("Need a tailor to make my wedding outfit. Have the fabric.", ["tailoring"], 25000),
+    ("Catering for my baby shower next Saturday. 50 guests.", ["catering"], 80000),
+    ("Driver to take goods from Idumota to Lekki today.", ["driving"], 12000),
+    ("Cleaning service for my 3-bedroom flat weekly.", ["cleaning"], 10000),
+    ("Painter for new shop. Walls and ceiling.", ["painting"], 35000),
+    ("Welder to install burglary on 5 windows.", ["welding"], 45000),
+    ("Toyota Camry full service - oil, filter, brake check.", ["mechanic"], 18000),
+    ("Photographer for engagement shoot. Half day outdoor.", ["photography"], 60000),
+    ("Maths tutor for SS3, WAEC prep, 3 times a week.", ["teaching"], 30000),
+    ("iPhone 13 screen replacement.", ["phone_repair"], 22000),
+    ("Bridal makeup for me and 4 bridesmaids.", ["makeup"], 70000),
+    ("AC installation, 2 rooms. Bring the unit.", ["electrical"], 55000),
+    ("Generator repair, Tigerhead 5kva won't start.", ["mechanic", "electrical"], 15000),
+]
+
+CHAT_TEMPLATES = [
+    [
+        ("employer", "Hi, I saw your profile. Are you available for this job?"),
+        ("worker", "Yes I'm available. When do you want it done?"),
+        ("employer", "This weekend if possible. How much?"),
+        ("worker", "For this type of work, around the budget you posted is fair."),
+        ("employer", "OK that works. I'll send the address."),
+        ("worker", "Got it. See you on Saturday morning."),
+    ],
+    [
+        ("employer", "Good evening, you came highly recommended."),
+        ("worker", "Thank you sir/ma. How can I help?"),
+        ("employer", "I need this done urgently. Can you start tomorrow?"),
+        ("worker", "Yes I can. Let me confirm the materials list with you."),
+        ("employer", "Send me what you need and I'll prepare it."),
+    ],
+    [
+        ("worker", "Good morning sir, I just saw your job post."),
+        ("employer", "Welcome. Tell me about your experience."),
+        ("worker", "I've been doing this work for 8 years now. Done many similar jobs."),
+        ("employer", "OK perfect. Can we agree on price?"),
+        ("worker", "Your budget is fine for me."),
+        ("employer", "Great. Let's lock the agreement."),
+    ],
+]
+
 LEARNING_PROMPTS = [
     ("You completed your first job - well done! Add proof media to boost your profile.", "first_job_completion"),
     ("Did you know? Saving N500 a week becomes N26,000 in a year. Tap Finance > Savings.", "low_savings_balance"),
@@ -164,6 +208,9 @@ async def populate_user_profile(
         "debt_records": 0,
         "user_intent": 0,
         "community_membership": 0,
+        "jobs_posted": 0,
+        "jobs_applied": 0,
+        "chats_with_messages": 0,
     }
 
     # Resolve peer pool
@@ -471,6 +518,174 @@ async def populate_user_profile(
                 },
             )
             counts["debt_records"] += 1
+
+    # 11. Jobs the user POSTED (1-2)
+    if peer_user_ids:
+        for _ in range(random.randint(1, 2)):
+            desc, tags, budget_naira = random.choice(JOB_TEMPLATES)
+            status = random.choice(["open", "open", "matched", "active", "completed"])
+            worker = random.choice(peer_user_ids) if status != "open" else None
+            created = now - timedelta(days=random.randint(2, 40))
+            job_id = str(uuid.uuid4())
+            await db.execute(
+                text("""
+                    INSERT INTO jobs (
+                        job_id, employer_user_id, worker_user_id, job_description_raw, job_tags,
+                        location_lat, location_lng, location_address, budget, status,
+                        created_at, updated_at
+                    ) VALUES (
+                        :jid, :emp, :wrk, :desc, :tags,
+                        NULL, NULL, :addr, :budget, :st, :cr, :up
+                    )
+                """),
+                {
+                    "jid": job_id,
+                    "emp": user_id,
+                    "wrk": worker,
+                    "desc": desc,
+                    "tags": tags,
+                    "addr": f"{user_lga or 'Lagos'}, Lagos",
+                    "budget": budget_naira * 100,
+                    "st": status,
+                    "cr": created,
+                    "up": created + timedelta(days=random.randint(0, 5)),
+                },
+            )
+            counts["jobs_posted"] += 1
+
+            # Applications for the user's job (2-4 random workers applied)
+            for app_worker in random.sample(peer_user_ids, min(random.randint(2, 4), len(peer_user_ids))):
+                app_status = "accepted" if app_worker == worker else random.choice(["applied", "applied", "shortlisted"])
+                await db.execute(
+                    text("""
+                        INSERT INTO job_applications (application_id, job_id, worker_user_id, status, applied_at)
+                        VALUES (:aid, :jid, :wid, :st, :ts)
+                    """),
+                    {
+                        "aid": str(uuid.uuid4()),
+                        "jid": job_id,
+                        "wid": app_worker,
+                        "st": app_status,
+                        "ts": created + timedelta(hours=random.randint(1, 48)),
+                    },
+                )
+
+            # If matched/active/completed, also create a chat
+            if worker and status in ("matched", "active", "completed"):
+                chat_id = str(uuid.uuid4())
+                await db.execute(
+                    text("""
+                        INSERT INTO job_chats (chat_id, job_id, employer_user_id, worker_user_id, chat_type, created_at)
+                        VALUES (:cid, :jid, :emp, :wrk, 'job_chat', :ts)
+                    """),
+                    {"cid": chat_id, "jid": job_id, "emp": user_id, "wrk": worker, "ts": created},
+                )
+                convo = random.choice(CHAT_TEMPLATES)
+                for j, (role_, content) in enumerate(convo):
+                    sender = user_id if role_ == "employer" else worker
+                    await db.execute(
+                        text("""
+                            INSERT INTO chat_messages (message_id, chat_id, sender_user_id, message_type, content, timestamp)
+                            VALUES (:mid, :cid, :sid, 'text', :content, :ts)
+                        """),
+                        {
+                            "mid": str(uuid.uuid4()),
+                            "cid": chat_id,
+                            "sid": sender,
+                            "content": content,
+                            "ts": created + timedelta(hours=j + 1),
+                        },
+                    )
+                counts["chats_with_messages"] += 1
+
+    # 12. Jobs the user APPLIED to (1-3)
+    if peer_user_ids and wants_profile:
+        for _ in range(random.randint(1, 3)):
+            employer = random.choice(peer_user_ids)
+            desc, tags, budget_naira = random.choice(JOB_TEMPLATES)
+            # Match the user's skill tags to one of the tags in the template (best effort)
+            chosen_tags = list(set(tags) | set(skill_tags))[:3] or tags
+            created = now - timedelta(days=random.randint(1, 30))
+            job_id = str(uuid.uuid4())
+            await db.execute(
+                text("""
+                    INSERT INTO jobs (
+                        job_id, employer_user_id, worker_user_id, job_description_raw, job_tags,
+                        location_address, budget, status, created_at, updated_at
+                    ) VALUES (:jid, :emp, NULL, :desc, :tags, :addr, :budget, 'open', :cr, :cr)
+                """),
+                {
+                    "jid": job_id,
+                    "emp": employer,
+                    "desc": desc,
+                    "tags": chosen_tags,
+                    "addr": f"{user_lga or 'Lagos'}, Lagos",
+                    "budget": budget_naira * 100,
+                    "cr": created,
+                },
+            )
+            await db.execute(
+                text("""
+                    INSERT INTO job_applications (application_id, job_id, worker_user_id, status, applied_at)
+                    VALUES (:aid, :jid, :wid, :st, :ts)
+                """),
+                {
+                    "aid": str(uuid.uuid4()),
+                    "jid": job_id,
+                    "wid": user_id,
+                    "st": random.choice(["applied", "shortlisted", "applied"]),
+                    "ts": created + timedelta(hours=random.randint(1, 24)),
+                },
+            )
+            counts["jobs_applied"] += 1
+
+    # 13. A standalone chat with a peer (an "ongoing discussion")
+    if peer_user_ids:
+        peer = random.choice(peer_user_ids)
+        # Create a lightweight job to anchor the chat
+        anchor_job_id = str(uuid.uuid4())
+        await db.execute(
+            text("""
+                INSERT INTO jobs (
+                    job_id, employer_user_id, worker_user_id, job_description_raw, job_tags,
+                    location_address, budget, status, created_at, updated_at
+                ) VALUES (:jid, :emp, :wrk, :desc, :tags, :addr, :budget, 'matched', NOW(), NOW())
+            """),
+            {
+                "jid": anchor_job_id,
+                "emp": peer,
+                "wrk": user_id,
+                "desc": random.choice(JOB_TEMPLATES)[0],
+                "tags": skill_tags or ["general_labour"],
+                "addr": f"{user_lga or 'Lagos'}, Lagos",
+                "budget": 25000 * 100,
+            },
+        )
+        chat_id = str(uuid.uuid4())
+        await db.execute(
+            text("""
+                INSERT INTO job_chats (chat_id, job_id, employer_user_id, worker_user_id, chat_type, created_at)
+                VALUES (:cid, :jid, :emp, :wrk, 'job_chat', NOW())
+            """),
+            {"cid": chat_id, "jid": anchor_job_id, "emp": peer, "wrk": user_id},
+        )
+        convo = random.choice(CHAT_TEMPLATES)
+        for j, (role_, content) in enumerate(convo):
+            sender = peer if role_ == "employer" else user_id
+            await db.execute(
+                text("""
+                    INSERT INTO chat_messages (message_id, chat_id, sender_user_id, message_type, content, timestamp)
+                    VALUES (:mid, :cid, :sid, 'text', :content, :ts)
+                """),
+                {
+                    "mid": str(uuid.uuid4()),
+                    "cid": chat_id,
+                    "sid": sender,
+                    "content": content,
+                    "ts": now - timedelta(hours=len(convo) - j),
+                },
+            )
+        counts["chats_with_messages"] += 1
 
     if commit:
         await db.commit()

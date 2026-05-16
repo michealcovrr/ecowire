@@ -20,26 +20,45 @@ async def get_balance(
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Fetch the user's Squad virtual account balance."""
+    """
+    Return the user's wallet balance.
+
+    Derived from completed local transactions because Squad sandbox does not
+    hold real funds. Inbound (receives, cash_in, loans) - outbound (sends,
+    cash_out, repayments). Starts from a seed of N50,000 so demo accounts
+    show a realistic balance immediately.
+    """
     squad_result = await db.execute(
         select(SquadAccount).where(SquadAccount.user_id == current_user.user_id)
     )
     squad_acct = squad_result.scalar_one_or_none()
-    if not squad_acct:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No Squad account found")
 
-    try:
-        resp = await squad_service.get_wallet_balance()
-        # Squad merchant balance is in kobo
-        balance_kobo = resp.get("data", {}).get("balance", 0)
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=f"Balance fetch failed: {e}")
+    from sqlalchemy import func
+    inbound_q = await db.execute(
+        select(func.coalesce(func.sum(Transaction.amount), 0))
+        .where(
+            (Transaction.receiver_user_id == current_user.user_id) &
+            (Transaction.status == "completed")
+        )
+    )
+    outbound_q = await db.execute(
+        select(func.coalesce(func.sum(Transaction.amount), 0))
+        .where(
+            (Transaction.sender_user_id == current_user.user_id) &
+            (Transaction.sender_user_id != Transaction.receiver_user_id) &
+            (Transaction.status == "completed")
+        )
+    )
+    inbound = int(inbound_q.scalar() or 0)
+    outbound = int(outbound_q.scalar() or 0)
+    seed_balance_kobo = 50_000 * 100   # N50,000 starter so the wallet isn't empty
+    balance_kobo = max(0, seed_balance_kobo + inbound - outbound)
 
     return ok({
         "balance_kobo": balance_kobo,
         "balance_naira": balance_kobo / 100,
-        "account_number": squad_acct.squad_account_number,
-        "bank_name": squad_acct.squad_bank_name,
+        "account_number": squad_acct.squad_account_number if squad_acct else None,
+        "bank_name": squad_acct.squad_bank_name if squad_acct else None,
     })
 
 
