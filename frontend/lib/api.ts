@@ -19,7 +19,18 @@ async function request<T>(
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const res = await fetch(`${BASE}${path}`, { ...options, headers });
-  const json = await res.json();
+  const raw = await res.text();
+  let json: any = null;
+  try {
+    json = raw ? JSON.parse(raw) : {};
+  } catch {
+    // Response wasn't JSON — almost always an HTML error page (Vercel 502/504,
+    // Next.js 404, or wrong NEXT_PUBLIC_API_URL pointing somewhere wrong).
+    const preview = raw.slice(0, 120).replace(/\s+/g, " ");
+    throw new Error(
+      `Server returned non-JSON (${res.status}). URL: ${BASE}${path}. Body: ${preview}`
+    );
+  }
 
   if (!res.ok && !json.success) {
     const msg =
