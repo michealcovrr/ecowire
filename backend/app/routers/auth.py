@@ -137,8 +137,9 @@ async def verify_otp_endpoint(body: VerifyOtpRequest, db: AsyncSession = Depends
             squad_acct = None
 
         token = create_access_token(user.user_id)
-        # QR generation can fail on serverless if PIL isn't available — degrade gracefully
-        qr_code = generate_qr_base64(user.user_id)
+        # Skip QR in this hot path — qrcode/PIL adds 2-5s of cold-start time
+        # on serverless and isn't needed for login. Frontend can call /auth/me
+        # later (or render QR client-side from user_id) if it needs one.
 
         return ok({
             "exists": True,
@@ -155,7 +156,7 @@ async def verify_otp_endpoint(body: VerifyOtpRequest, db: AsyncSession = Depends
             ).model_dump(),
             "squad_account_number": squad_acct.squad_account_number if squad_acct else None,
             "squad_bank_name": squad_acct.squad_bank_name if squad_acct else None,
-            "qr_code": qr_code,
+            "qr_code": None,
         })
 
     # New user — issue temp token for registration
