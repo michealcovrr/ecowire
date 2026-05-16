@@ -75,9 +75,11 @@ async def send_otp(phone: str) -> bool:
     pipe.expire(attempts_key, 3600)
     await pipe.execute()
 
-    # Fire-and-forget: dispatch SMS/WhatsApp in background so API responds instantly
-    asyncio.create_task(_dispatch_sms(normalised, otp))
-    print(f"[send_otp] queued otp={otp} for {normalised}", flush=True)
+    # Await dispatch synchronously — serverless contexts (Vercel) kill background
+    # tasks the moment the response returns, so fire-and-forget silently drops the
+    # WhatsApp message. We need delivery to confirm before responding to the client.
+    await _dispatch_sms(normalised, otp)
+    print(f"[send_otp] dispatched otp={otp} for {normalised}", flush=True)
     return True
 
 
@@ -92,18 +94,20 @@ async def verify_otp(phone: str, code: str) -> bool:
     return False
 
 
-async def _dispatch_sms(phone: str, otp: str) -> None:
+async def _dispatch_sms(phone: str, otp: str) -> bool:
+    """Send the OTP. Returns True if any channel confirmed delivery."""
     # Always print so we can test even if delivery fails
     print(f"[OTP] {phone} -> {otp}", flush=True)
 
-    to = f"+{phone}"
-    delivered = False
-
-    # Try Wasender WhatsApp first
     if settings.wasender_api_url and settings.wasender_api_keys:
-        await _dispatch_wasender(phone, otp)
-    else:
-        print("[DEV] No delivery channel configured — OTP printed above only", flush=True)
+        ok = await _dispatch_wasender(phone, otp)
+        if ok:
+            return True
+        # Try one more key if available (round-robin)
+        ok = await _dispatch_wasender(phone, otp)
+        return ok
+    print("[DEV] No delivery channel configured — OTP printed above only", flush=True)
+    return False
 
 
 async def _dispatch_wasender(phone: str, otp: str) -> bool:
