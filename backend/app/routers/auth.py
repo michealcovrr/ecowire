@@ -127,12 +127,19 @@ async def verify_otp_endpoint(body: VerifyOtpRequest, db: AsyncSession = Depends
     user = result.scalar_one_or_none()
 
     if user:
-        squad_result = await db.execute(
-            select(SquadAccount).where(SquadAccount.user_id == user.user_id)
-        )
-        squad_acct = squad_result.scalar_one_or_none()
+        try:
+            squad_result = await db.execute(
+                select(SquadAccount).where(SquadAccount.user_id == user.user_id)
+            )
+            squad_acct = squad_result.scalar_one_or_none()
+        except Exception as e:
+            print(f"[verify-otp] squad lookup failed: {e}", flush=True)
+            squad_acct = None
+
         token = create_access_token(user.user_id)
+        # QR generation can fail on serverless if PIL isn't available — degrade gracefully
         qr_code = generate_qr_base64(user.user_id)
+
         return ok({
             "exists": True,
             "token": token,
